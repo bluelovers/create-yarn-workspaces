@@ -122,7 +122,7 @@ function _createYarnWorkspaces(targetPath) {
             "packages": packages,
             "npmClient": "yarn",
             "useWorkspaces": true,
-            "version": "0.0.0"
+            "version": "independent",
         };
         let s = JSON.stringify(lerna, null, 2);
         fs.writeFileSync(file, s);

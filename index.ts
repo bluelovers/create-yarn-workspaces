@@ -197,7 +197,7 @@ export function _createYarnWorkspaces(targetPath: string)
 			"packages": packages,
 			"npmClient": "yarn",
 			"useWorkspaces": true,
-			"version": "0.0.0"
+			"version": "independent",
 		};
 
 		let s = JSON.stringify(lerna, null, 2);
