@@ -116,6 +116,18 @@ function _createYarnWorkspaces(targetPath) {
         fs.writeFileSync(file, s);
         console.log(`update lerna.json`);
     }
+    else if (!lerna) {
+        let file = path.join(targetPath, 'lerna.json');
+        lerna = {
+            "packages": packages,
+            "npmClient": "yarn",
+            "useWorkspaces": true,
+            "version": "0.0.0"
+        };
+        let s = JSON.stringify(lerna, null, 2);
+        fs.writeFileSync(file, s);
+        console.log(`create lerna.json`);
+    }
     createDirByPackages(targetPath, packages);
     return true;
 }
