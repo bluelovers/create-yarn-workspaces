@@ -2,7 +2,6 @@
  * Created by user on 2018/5/13/013.
  */
 
-import checkPkgWorkspace from 'check-pkg-workspace';
 import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root';
 import * as path from 'path';
 import * as pkgDir from 'pkg-dir';
