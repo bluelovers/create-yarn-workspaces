@@ -37,6 +37,7 @@ export function createYarnWorkspaces(cwd?: string, options: IOptions = {})
 
 	try
 	{
+		// @FIXME 一個奇怪的BUG 不使用 try 的話 在 NPX 底下就會出現無訊息的停止
 		ws = findYarnWorkspaceRoot(root);
 	}
 	catch (e)
