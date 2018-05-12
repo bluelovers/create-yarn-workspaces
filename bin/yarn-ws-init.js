@@ -33,4 +33,5 @@ let cli = yargs
     }
 })
     .version()
+    .help()
     .argv;

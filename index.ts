@@ -32,12 +32,26 @@ export function createYarnWorkspaces(cwd?: string, options: IOptions = {})
 	cwd = path.resolve(cwd);
 
 	let root: string = pkgDir.sync(cwd);
-	let ws: string = findYarnWorkspaceRoot(root);
+
+	let ws: string;
+
+	try
+	{
+		ws = findYarnWorkspaceRoot(root);
+	}
+	catch (e)
+	{
+		console.log(e.toString());
+
+		ws = null;
+	}
 
 	let targetPath = path.resolve(root || cwd);
 
 	if (!options.ignoreExistsPackage && root)
 	{
+		console.warn(`already have package at "${root}", or use ignoreExistsPackage for overwrite it`);
+
 		return false;
 	}
 
@@ -85,8 +99,6 @@ export function _createYarnWorkspaces(targetPath: string)
 {
 	console.log(`will create at ${targetPath}`);
 
-	let file = path.join(targetPath, 'package.json');
-
 	let pkg;
 
 	let lerna;
@@ -111,9 +123,16 @@ export function _createYarnWorkspaces(targetPath: string)
 		"packages/*",
 	];
 
+	let file = path.join(targetPath, 'package.json');
+
 	if (!fs.existsSync(file))
 	{
 		let name = path.basename(targetPath);
+
+		if (!fs.existsSync(targetPath))
+		{
+			fs.mkdirSync(targetPath);
+		}
 
 		pkg = {
 			"name": name,

@@ -14,9 +14,17 @@ function createYarnWorkspaces(cwd, options = {}) {
     }
     cwd = path.resolve(cwd);
     let root = pkgDir.sync(cwd);
-    let ws = findYarnWorkspaceRoot(root);
+    let ws;
+    try {
+        ws = findYarnWorkspaceRoot(root);
+    }
+    catch (e) {
+        console.log(e.toString());
+        ws = null;
+    }
     let targetPath = path.resolve(root || cwd);
     if (!options.ignoreExistsPackage && root) {
+        console.warn(`already have package at "${root}", or use ignoreExistsPackage for overwrite it`);
         return false;
     }
     if (ws) {
@@ -48,7 +56,6 @@ function isSamePath(p1, p2) {
 exports.isSamePath = isSamePath;
 function _createYarnWorkspaces(targetPath) {
     console.log(`will create at ${targetPath}`);
-    let file = path.join(targetPath, 'package.json');
     let pkg;
     let lerna;
     {
@@ -64,8 +71,12 @@ function _createYarnWorkspaces(targetPath) {
     let packages = lerna && lerna.packages || [
         "packages/*",
     ];
+    let file = path.join(targetPath, 'package.json');
     if (!fs.existsSync(file)) {
         let name = path.basename(targetPath);
+        if (!fs.existsSync(targetPath)) {
+            fs.mkdirSync(targetPath);
+        }
         pkg = {
             "name": name,
             "version": "1.0.0",

@@ -33,13 +33,15 @@ let cli = yargs
 			name = CWD;
 		}
 
+		//console.log(CWD, yargs.argv);
+
 //		console.log(yargs.argv);
 
 		let bool = createYarnWorkspaces(name, {
 			ignoreExistsPackage: !!yargs.argv.ignoreExistsPackage,
 		});
 
-//		console.log(77777777777, bool);
+		//console.log(77777777777, bool);
 
 		if (!bool)
 		{
@@ -47,6 +49,6 @@ let cli = yargs
 		}
 	})
 	.version()
-	//.help()
+	.help()
 	.argv
 ;
