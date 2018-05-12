@@ -1,0 +1,32 @@
+{
+  "name": "create-yarn-workspaces",
+  "version": "1.0.0",
+  "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
+  "homepage": "https://github.com/bluelovers/create-yarn-workspaces#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/create-yarn-workspaces/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/create-yarn-workspaces.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "bin": {
+    "create-yarn-workspaces": "yarn-ws-init.js",
+    "yarn-ws-init": "yarn-ws-init.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "find-yarn-workspace-root": "^1.1.0",
+    "pkg-dir": "^2.0.0",
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {}
+}
