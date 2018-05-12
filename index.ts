@@ -110,7 +110,7 @@ export function _createYarnWorkspaces(targetPath: string)
 		{
 			let json = JSON.parse(fs.readFileSync(file).toString());
 
-			if (json.packages && !json.packages.length)
+			if (json.packages && !Object.keys(json.packages).length)
 			{
 				json.packages = undefined;
 			}
@@ -149,14 +149,23 @@ export function _createYarnWorkspaces(targetPath: string)
 	{
 		let json = JSON.parse(fs.readFileSync(file).toString());
 
-		if (json.packages && json.packages.length)
+		let workspaces;
+
+		if (json.workspaces && Object.keys(json.workspaces).length)
 		{
-			packages = json.packages;
+			workspaces = json.workspaces;
+
+			// https://yarnpkg.com/blog/2018/02/15/nohoist/
+			packages = workspaces.packages || workspaces;
+		}
+		else
+		{
+			workspaces = packages;
 		}
 
 		pkg = Object.assign(json, {
 			"private": true,
-			"workspaces": packages,
+			"workspaces": workspaces,
 		});
 
 		pkg.resolutions = pkg.resolutions || {};

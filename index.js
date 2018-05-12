@@ -62,7 +62,7 @@ function _createYarnWorkspaces(targetPath) {
         let file = path.join(targetPath, 'lerna.json');
         if (fs.existsSync(file)) {
             let json = JSON.parse(fs.readFileSync(file).toString());
-            if (json.packages && !json.packages.length) {
+            if (json.packages && !Object.keys(json.packages).length) {
                 json.packages = undefined;
             }
             lerna = json;
@@ -90,12 +90,17 @@ function _createYarnWorkspaces(targetPath) {
     }
     else {
         let json = JSON.parse(fs.readFileSync(file).toString());
-        if (json.packages && json.packages.length) {
-            packages = json.packages;
+        let workspaces;
+        if (json.workspaces && Object.keys(json.workspaces).length) {
+            workspaces = json.workspaces;
+            packages = workspaces.packages || workspaces;
+        }
+        else {
+            workspaces = packages;
         }
         pkg = Object.assign(json, {
             "private": true,
-            "workspaces": packages,
+            "workspaces": workspaces,
         });
         pkg.resolutions = pkg.resolutions || {};
     }
