@@ -1,7 +1,15 @@
 {
   "name": "create-yarn-workspaces",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
+  "keywords": [
+    "cli",
+    "init",
+    "npm",
+    "workspace",
+    "workspaces",
+    "yarn"
+  ],
   "homepage": "https://github.com/bluelovers/create-yarn-workspaces#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/create-yarn-workspaces/issues"
