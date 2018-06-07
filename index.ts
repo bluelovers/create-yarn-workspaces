@@ -13,6 +13,8 @@ export interface IOptions
 
 	ignoreParentWorkspaces?: boolean,
 	ignoreExistsPackage?: boolean,
+
+	initPackageJson?<T = any>(current: ReturnType<typeof getDefaultPackageJson>): ReturnType<typeof getDefaultPackageJson> | ReturnType<typeof getDefaultPackageJson> & T,
 }
 
 export function createYarnWorkspaces(cwd?: string, options: IOptions = {})
@@ -95,11 +97,11 @@ export function isSamePath(p1: string, p2: string)
 	return (s === '.' || s === '');
 }
 
-export function _createYarnWorkspaces(targetPath: string)
+export function _createYarnWorkspaces(targetPath: string, options: IOptions = {})
 {
 	console.log(`will create at ${targetPath}`);
 
-	let pkg;
+	let pkg: ReturnType<typeof getDefaultPackageJson>;
 
 	let lerna;
 
@@ -134,16 +136,20 @@ export function _createYarnWorkspaces(targetPath: string)
 			fs.mkdirSync(targetPath);
 		}
 
-		pkg = {
-			"name": name,
-			"version": "1.0.0",
-			"private": true,
-			"workspaces": packages,
-			"scripts": {
-				"test": "echo \"Error: no test specified\" && exit 1"
-			},
-			"resolutions": {}
-		};
+		pkg = Object.assign(getDefaultPackageJson(name), {
+			name,
+			workspaces: packages,
+		});
+
+		if (options.initPackageJson)
+		{
+			let ret = options.initPackageJson(pkg);
+
+			if (ret)
+			{
+				pkg = ret;
+			}
+		}
 	}
 	else
 	{
@@ -209,6 +215,36 @@ export function _createYarnWorkspaces(targetPath: string)
 	createDirByPackages(targetPath, packages);
 
 	return true;
+}
+
+export function getDefaultPackageJson(name?: string): {
+	name: string;
+	version: string;
+	private: boolean;
+	workspaces: string[];
+	scripts: {
+		[k: string]: string;
+		test?: string;
+	};
+	resolutions: {
+		[k: string]: string;
+	};
+	[k: string]: any;
+}
+{
+	return {
+		"name": name,
+		"version": "1.0.0",
+		"private": true,
+		"workspaces": [
+			"packages/*"
+		],
+		"scripts": {
+			"sort-package-json": "oao run-script \"sort-package-json2\"",
+			"test": "echo \"Error: no test specified\" && exit 1"
+		},
+		"resolutions": {}
+	};
 }
 
 export function createDirByPackages(cwd: string, packages: string[])

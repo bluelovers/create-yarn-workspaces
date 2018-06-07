@@ -54,7 +54,7 @@ function isSamePath(p1, p2) {
     return (s === '.' || s === '');
 }
 exports.isSamePath = isSamePath;
-function _createYarnWorkspaces(targetPath) {
+function _createYarnWorkspaces(targetPath, options = {}) {
     console.log(`will create at ${targetPath}`);
     let pkg;
     let lerna;
@@ -77,16 +77,16 @@ function _createYarnWorkspaces(targetPath) {
         if (!fs.existsSync(targetPath)) {
             fs.mkdirSync(targetPath);
         }
-        pkg = {
-            "name": name,
-            "version": "1.0.0",
-            "private": true,
-            "workspaces": packages,
-            "scripts": {
-                "test": "echo \"Error: no test specified\" && exit 1"
-            },
-            "resolutions": {}
-        };
+        pkg = Object.assign(getDefaultPackageJson(name), {
+            name,
+            workspaces: packages,
+        });
+        if (options.initPackageJson) {
+            let ret = options.initPackageJson(pkg);
+            if (ret) {
+                pkg = ret;
+            }
+        }
     }
     else {
         let json = JSON.parse(fs.readFileSync(file).toString());
@@ -132,6 +132,22 @@ function _createYarnWorkspaces(targetPath) {
     return true;
 }
 exports._createYarnWorkspaces = _createYarnWorkspaces;
+function getDefaultPackageJson(name) {
+    return {
+        "name": name,
+        "version": "1.0.0",
+        "private": true,
+        "workspaces": [
+            "packages/*"
+        ],
+        "scripts": {
+            "sort-package-json": "oao run-script \"sort-package-json2\"",
+            "test": "echo \"Error: no test specified\" && exit 1"
+        },
+        "resolutions": {}
+    };
+}
+exports.getDefaultPackageJson = getDefaultPackageJson;
 function createDirByPackages(cwd, packages) {
     return packages.some(function (value) {
         let bool;
