@@ -17,6 +17,12 @@ let cli = yargs
     boolean: true,
     alias: ['i'],
 })
+    .option('ignoreParentWorkspaces', {
+    boolean: true,
+})
+    .option('debug', {
+    boolean: true,
+})
     .command('$0', '', function (yargs) {
     let name = yargs.argv.name || yargs.argv._[0];
     if (name) {
@@ -25,11 +31,18 @@ let cli = yargs
     else {
         name = CWD;
     }
+    yargs.argv.debug && __1.console.debug(yargs.argv);
     let bool = __1.default(name, {
         ignoreExistsPackage: !!yargs.argv.ignoreExistsPackage,
+        ignoreParentWorkspaces: !!yargs.argv.ignoreParentWorkspaces,
+        debug: !!yargs.argv.debug,
     });
     if (!bool) {
+        console.log('\n');
         yargs.showHelp();
+    }
+    else {
+        __1.console.success(`done`);
     }
 })
     .version()

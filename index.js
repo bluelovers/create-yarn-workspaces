@@ -4,6 +4,11 @@ const findYarnWorkspaceRoot = require("find-yarn-workspace-root");
 const path = require("path");
 const pkgDir = require("pkg-dir");
 const fs = require("fs");
+const debug_color2_1 = require("debug-color2");
+exports.console = new debug_color2_1.Console2(null, {
+    label: true,
+    time: true,
+});
 function createYarnWorkspaces(cwd, options = {}) {
     if (cwd && typeof cwd != 'string') {
         options = cwd;
@@ -19,21 +24,32 @@ function createYarnWorkspaces(cwd, options = {}) {
         ws = findYarnWorkspaceRoot(root);
     }
     catch (e) {
-        console.log(e.toString());
+        exports.console.log(e.toString());
         ws = null;
     }
     let targetPath = path.resolve(root || cwd);
+    options.debug && exports.console.debug({
+        targetPath,
+        ws,
+        options,
+    });
     if (!options.ignoreExistsPackage && root) {
-        console.warn(`already have package at "${root}", or use ignoreExistsPackage for overwrite it`);
+        exports.console.error(`already have package at "${root}", or use ignoreExistsPackage for overwrite it`);
         return false;
+    }
+    else {
+        exports.console.warn(`ignore exists package "${root}"`);
     }
     if (ws) {
         let bool = true;
-        console.warn(`already have workspace at "${ws}"`);
+        exports.console.warn(`detect exists workspace "${ws}"`);
         if (options.ignoreParentWorkspaces) {
             bool = isSamePath(targetPath, ws);
             if (!bool) {
-                console.warn(`ignoreParentWorkspaces = true`);
+                exports.console.warn(`ignoreParentWorkspaces = true`);
+            }
+            else {
+                exports.console.error(`target path already is workspace`);
             }
         }
         if (bool) {
@@ -55,7 +71,7 @@ function isSamePath(p1, p2) {
 }
 exports.isSamePath = isSamePath;
 function _createYarnWorkspaces(targetPath, options = {}) {
-    console.log(`will create at ${targetPath}`);
+    exports.console.info(`create in target path "${targetPath}"`);
     let pkg;
     let lerna;
     {
@@ -106,7 +122,7 @@ function _createYarnWorkspaces(targetPath, options = {}) {
     }
     let s = JSON.stringify(pkg, null, 2);
     fs.writeFileSync(file, s);
-    console.log(`make workspace package.json`);
+    exports.console.success(`create workspace package.json`);
     if (lerna && (packages != lerna.packages || lerna.npmClient !== 'yarn' || lerna.useWorkspaces !== true)) {
         let file = path.join(targetPath, 'lerna.json');
         lerna.packages = packages;
@@ -114,7 +130,7 @@ function _createYarnWorkspaces(targetPath, options = {}) {
         lerna.useWorkspaces = true;
         let s = JSON.stringify(lerna, null, 2);
         fs.writeFileSync(file, s);
-        console.log(`update lerna.json`);
+        exports.console.info(`update lerna.json`);
     }
     else if (!lerna) {
         let file = path.join(targetPath, 'lerna.json');
@@ -126,7 +142,7 @@ function _createYarnWorkspaces(targetPath, options = {}) {
         };
         let s = JSON.stringify(lerna, null, 2);
         fs.writeFileSync(file, s);
-        console.log(`create lerna.json`);
+        exports.console.success(`create lerna.json`);
     }
     createDirByPackages(targetPath, packages);
     return true;

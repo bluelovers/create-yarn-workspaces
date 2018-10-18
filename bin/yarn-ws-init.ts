@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import createYarnWorkspaces from '..';
+import createYarnWorkspaces, { console as debug } from '..';
 import * as yargs from 'yargs';
 import * as path from 'path';
 
@@ -20,6 +20,12 @@ let cli = yargs
 		boolean: true,
 		alias: ['i'],
 	})
+	.option('ignoreParentWorkspaces', {
+		boolean: true,
+	})
+	.option('debug', {
+		boolean: true,
+	})
 	.command('$0', '', function (yargs)
 	{
 		let name = yargs.argv.name || yargs.argv._[0];
@@ -35,17 +41,24 @@ let cli = yargs
 
 		//console.log(CWD, yargs.argv);
 
-//		console.log(yargs.argv);
+		yargs.argv.debug && debug.debug(yargs.argv);
 
 		let bool = createYarnWorkspaces(name, {
 			ignoreExistsPackage: !!yargs.argv.ignoreExistsPackage,
+			ignoreParentWorkspaces: !!yargs.argv.ignoreParentWorkspaces,
+			debug: !!yargs.argv.debug,
 		});
 
 		//console.log(77777777777, bool);
 
 		if (!bool)
 		{
+			console.log('\n');
 			yargs.showHelp();
+		}
+		else
+		{
+			debug.success(`done`);
 		}
 	})
 	.version()

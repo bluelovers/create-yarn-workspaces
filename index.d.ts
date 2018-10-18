@@ -1,8 +1,11 @@
+import { Console2 } from 'debug-color2';
+export declare const console: Console2;
 export interface IOptions {
     cwd?: string;
     ignoreParentWorkspaces?: boolean;
     ignoreExistsPackage?: boolean;
     initPackageJson?<T = any>(current: ReturnType<typeof getDefaultPackageJson>): ReturnType<typeof getDefaultPackageJson> | (ReturnType<typeof getDefaultPackageJson> & T);
+    debug?: boolean;
 }
 export declare function createYarnWorkspaces(cwd?: string, options?: IOptions): boolean;
 export declare function isSamePath(p1: string, p2: string): boolean;

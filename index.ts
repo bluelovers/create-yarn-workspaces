@@ -7,6 +7,13 @@ import * as path from 'path';
 import * as pkgDir from 'pkg-dir';
 import * as fs from 'fs';
 
+import { Console2 } from 'debug-color2';
+
+export const console = new Console2(null, {
+	label: true,
+	time: true,
+});
+
 export interface IOptions
 {
 	cwd?: string,
@@ -15,6 +22,8 @@ export interface IOptions
 	ignoreExistsPackage?: boolean,
 
 	initPackageJson?<T = any>(current: ReturnType<typeof getDefaultPackageJson>): ReturnType<typeof getDefaultPackageJson> | ReturnType<typeof getDefaultPackageJson> & T,
+
+	debug?: boolean,
 }
 
 export function createYarnWorkspaces(cwd?: string, options: IOptions = {})
@@ -50,18 +59,28 @@ export function createYarnWorkspaces(cwd?: string, options: IOptions = {})
 
 	let targetPath = path.resolve(root || cwd);
 
+	options.debug && console.debug({
+		targetPath,
+		ws,
+		options,
+	});
+
 	if (!options.ignoreExistsPackage && root)
 	{
-		console.warn(`already have package at "${root}", or use ignoreExistsPackage for overwrite it`);
+		console.error(`already have package at "${root}", or use ignoreExistsPackage for overwrite it`);
 
 		return false;
+	}
+	else
+	{
+		console.warn(`ignore exists package "${root}"`);
 	}
 
 	if (ws)
 	{
 		let bool: boolean = true;
 
-		console.warn(`already have workspace at "${ws}"`);
+		console.warn(`detect exists workspace "${ws}"`);
 
 		if (options.ignoreParentWorkspaces)
 		{
@@ -70,6 +89,10 @@ export function createYarnWorkspaces(cwd?: string, options: IOptions = {})
 			if (!bool)
 			{
 				console.warn(`ignoreParentWorkspaces = true`);
+			}
+			else
+			{
+				console.error(`target path already is workspace`);
 			}
 		}
 
@@ -99,7 +122,7 @@ export function isSamePath(p1: string, p2: string)
 
 export function _createYarnWorkspaces(targetPath: string, options: IOptions = {})
 {
-	console.log(`will create at ${targetPath}`);
+	console.info(`create in target path "${targetPath}"`);
 
 	let pkg: ReturnType<typeof getDefaultPackageJson>;
 
@@ -180,7 +203,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 	let s = JSON.stringify(pkg, null, 2);
 	fs.writeFileSync(file, s);
 
-	console.log(`make workspace package.json`);
+	console.success(`create workspace package.json`);
 
 	if (lerna && (packages != lerna.packages || lerna.npmClient !== 'yarn' || lerna.useWorkspaces !== true))
 	{
@@ -193,7 +216,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 		let s = JSON.stringify(lerna, null, 2);
 		fs.writeFileSync(file, s);
 
-		console.log(`update lerna.json`);
+		console.info(`update lerna.json`);
 	}
 	else if (!lerna)
 	{
@@ -209,7 +232,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 		let s = JSON.stringify(lerna, null, 2);
 		fs.writeFileSync(file, s);
 
-		console.log(`create lerna.json`);
+		console.success(`create lerna.json`);
 	}
 
 	createDirByPackages(targetPath, packages);
