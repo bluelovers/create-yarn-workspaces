@@ -37,7 +37,7 @@ function createYarnWorkspaces(cwd, options = {}) {
         exports.console.error(`already have package at "${root}", or use ignoreExistsPackage for overwrite it`);
         return false;
     }
-    else {
+    else if (root) {
         exports.console.warn(`ignore exists package "${root}"`);
     }
     if (ws) {

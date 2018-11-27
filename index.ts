@@ -71,7 +71,7 @@ export function createYarnWorkspaces(cwd?: string, options: IOptions = {})
 
 		return false;
 	}
-	else
+	else if (root)
 	{
 		console.warn(`ignore exists package "${root}"`);
 	}
