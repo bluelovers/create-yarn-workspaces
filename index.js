@@ -148,6 +148,18 @@ function _createYarnWorkspaces(targetPath, options = {}) {
         fs.writeFileSync(path.join(targetPath, 'tsconfig.json'), JSON.stringify(getDefaultTsconfig(), null, 2));
         exports.console.success(`create tsconfig.json`);
     }
+    if (!fs.existsSync(path.join(targetPath, '.gitignore'))) {
+        try {
+            let dir = path.dirname(require.resolve('npm-init2'));
+            let file = path.join(dir, 'lib/static/.gitignore');
+            if (fs.existsSync(file)) {
+                fs.copyFileSync(file, path.join(targetPath, '.gitignore'));
+                exports.console.success(`create tsconfig.json`);
+            }
+        }
+        catch (e) {
+        }
+    }
     createDirByPackages(targetPath, packages);
     return true;
 }

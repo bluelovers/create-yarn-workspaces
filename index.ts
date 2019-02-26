@@ -2,10 +2,10 @@
  * Created by user on 2018/5/13/013.
  */
 
-import * as findYarnWorkspaceRoot from 'find-yarn-workspace-root';
-import * as path from 'path';
-import * as pkgDir from 'pkg-dir';
-import * as fs from 'fs';
+import findYarnWorkspaceRoot = require('find-yarn-workspace-root');
+import path = require('path');
+import pkgDir = require('pkg-dir');
+import fs = require('fs');
 
 import { Console2 } from 'debug-color2';
 
@@ -240,6 +240,26 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 		fs.writeFileSync(path.join(targetPath, 'tsconfig.json'), JSON.stringify(getDefaultTsconfig(), null, 2));
 
 		console.success(`create tsconfig.json`);
+	}
+
+	if (!fs.existsSync(path.join(targetPath, '.gitignore')))
+	{
+		try
+		{
+			let dir = path.dirname(require.resolve('npm-init2'));
+			let file = path.join(dir, 'lib/static/.gitignore');
+
+			if (fs.existsSync(file))
+			{
+				fs.copyFileSync(file, path.join(targetPath, '.gitignore'));
+
+				console.success(`create tsconfig.json`);
+			}
+		}
+		catch (e)
+		{
+
+		}
 	}
 
 	createDirByPackages(targetPath, packages);
