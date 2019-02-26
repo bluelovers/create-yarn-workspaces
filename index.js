@@ -144,10 +144,20 @@ function _createYarnWorkspaces(targetPath, options = {}) {
         fs.writeFileSync(file, s);
         exports.console.success(`create lerna.json`);
     }
+    if (!fs.existsSync(path.join(targetPath, 'tsconfig.json'))) {
+        fs.writeFileSync(path.join(targetPath, 'tsconfig.json'), JSON.stringify(getDefaultTsconfig(), null, 2));
+        exports.console.success(`create tsconfig.json`);
+    }
     createDirByPackages(targetPath, packages);
     return true;
 }
 exports._createYarnWorkspaces = _createYarnWorkspaces;
+function getDefaultTsconfig() {
+    return {
+        extends: "@bluelovers/tsconfig/sourcemap/mapfile.json"
+    };
+}
+exports.getDefaultTsconfig = getDefaultTsconfig;
 function getDefaultPackageJson(name) {
     return {
         "name": name,
@@ -159,6 +169,9 @@ function getDefaultPackageJson(name) {
         "scripts": {
             "sort-package-json": "oao run-script \"sort-package-json2\"",
             "test": "echo \"Error: no test specified\" && exit 1"
+        },
+        "devDependencies": {
+            "@bluelovers/tsconfig": "^1.0.1"
         },
         "resolutions": {}
     };

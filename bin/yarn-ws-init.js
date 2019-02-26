@@ -6,9 +6,7 @@ const yargs = require("yargs");
 const path = require("path");
 const CWD = process.cwd();
 let cli = yargs
-    .default({
-//input: process.cwd(),
-})
+    .default({})
     .option('name', {
     alias: ['n'],
     requiresArg: true,
@@ -33,14 +31,12 @@ let cli = yargs
     else {
         name = CWD;
     }
-    //console.log(CWD, yargs.argv);
     yargs.argv.debug && __1.console.debug(yargs.argv);
     let bool = __1.default(name, {
         ignoreExistsPackage: !!yargs.argv.ignoreExistsPackage,
         ignoreParentWorkspaces: !!yargs.argv.ignoreParentWorkspaces,
         debug: !!yargs.argv.debug,
     });
-    //console.log(77777777777, bool);
     if (!bool) {
         console.log('\n');
         yargs.showHelp();
