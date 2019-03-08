@@ -151,7 +151,7 @@ function _createYarnWorkspaces(targetPath, options = {}) {
     if (!fs.existsSync(path.join(targetPath, '.gitignore'))) {
         try {
             let dir = path.dirname(require.resolve('npm-init2'));
-            let file = path.join(dir, 'lib/static/.gitignore');
+            let file = path.join(dir, 'lib/file/gitignore');
             if (fs.existsSync(file)) {
                 fs.copyFileSync(file, path.join(targetPath, '.gitignore'));
                 exports.console.success(`create tsconfig.json`);

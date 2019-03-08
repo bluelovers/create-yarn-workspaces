@@ -247,7 +247,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 		try
 		{
 			let dir = path.dirname(require.resolve('npm-init2'));
-			let file = path.join(dir, 'lib/static/.gitignore');
+			let file = path.join(dir, 'lib/file/gitignore');
 
 			if (fs.existsSync(file))
 			{
