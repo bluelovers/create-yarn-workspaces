@@ -154,7 +154,7 @@ function _createYarnWorkspaces(targetPath, options = {}) {
             let file = path.join(dir, 'lib/file/gitignore');
             if (fs.existsSync(file)) {
                 fs.copyFileSync(file, path.join(targetPath, '.gitignore'));
-                exports.console.success(`create tsconfig.json`);
+                exports.console.success(`create .gitignore`);
             }
         }
         catch (e) {

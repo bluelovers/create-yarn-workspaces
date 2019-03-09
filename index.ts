@@ -253,7 +253,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 			{
 				fs.copyFileSync(file, path.join(targetPath, '.gitignore'));
 
-				console.success(`create tsconfig.json`);
+				console.success(`create .gitignore`);
 			}
 		}
 		catch (e)

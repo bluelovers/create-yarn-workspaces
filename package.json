@@ -1,6 +1,6 @@
 {
   "name": "create-yarn-workspaces",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
   "keywords": [
     "cli",
@@ -8,7 +8,9 @@
     "npm",
     "workspace",
     "workspaces",
-    "yarn"
+    "ws",
+    "yarn",
+    "yarn-ws-init"
   ],
   "homepage": "https://github.com/bluelovers/create-yarn-workspaces#readme",
   "bugs": {
@@ -32,11 +34,11 @@
     "test": "node ./bin/yarn-ws-init --debug --ignoreExistsPackage --ignoreParentWorkspaces ./test/temp"
   },
   "dependencies": {
-    "debug-color2": "^1.0.6",
+    "debug-color2": "^1.0.7",
     "find-yarn-workspace-root": "^1.2.1",
-    "npm-init2": "^1.0.14",
+    "npm-init2": "^1.0.17",
     "pkg-dir": "^3.0.0",
-    "yargs": "^13.2.1"
+    "yargs": "^13.2.2"
   },
   "devDependencies": {}
 }
