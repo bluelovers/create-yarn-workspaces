@@ -1,3 +1,6 @@
+/**
+ * Created by user on 2018/5/13/013.
+ */
 import { Console2 } from 'debug-color2';
 export declare const console: Console2;
 export interface IOptions {

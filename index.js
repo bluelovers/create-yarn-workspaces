@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * Created by user on 2018/5/13/013.
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 const findYarnWorkspaceRoot = require("find-yarn-workspace-root");
 const path = require("path");
@@ -21,6 +24,7 @@ function createYarnWorkspaces(cwd, options = {}) {
     let root = pkgDir.sync(cwd);
     let ws;
     try {
+        // @FIXME 一個奇怪的BUG 不使用 try 的話 在 NPX 底下就會出現無訊息的停止
         ws = findYarnWorkspaceRoot(root);
     }
     catch (e) {
@@ -109,6 +113,7 @@ function _createYarnWorkspaces(targetPath, options = {}) {
         let workspaces;
         if (json.workspaces && Object.keys(json.workspaces).length) {
             workspaces = json.workspaces;
+            // https://yarnpkg.com/blog/2018/02/15/nohoist/
             packages = workspaces.packages || workspaces;
         }
         else {
@@ -205,3 +210,4 @@ function createDirByPackages(cwd, packages) {
 }
 exports.createDirByPackages = createDirByPackages;
 exports.default = createYarnWorkspaces;
+//# sourceMappingURL=index.js.map
