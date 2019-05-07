@@ -2,12 +2,13 @@
  * Created by user on 2018/5/13/013.
  */
 
-import findYarnWorkspaceRoot = require('find-yarn-workspace-root');
+import findYarnWorkspaceRoot = require('find-yarn-workspace-root2');
 import path = require('path');
 import pkgDir = require('pkg-dir');
 import fs = require('fs');
 
 import { Console2 } from 'debug-color2';
+import { copyStaticFiles, defaultCopyStaticFiles } from 'npm-init2/lib/index';
 
 export const console = new Console2(null, {
 	label: true,
@@ -242,25 +243,9 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 		console.success(`create tsconfig.json`);
 	}
 
-	if (!fs.existsSync(path.join(targetPath, '.gitignore')))
-	{
-		try
-		{
-			let dir = path.dirname(require.resolve('npm-init2'));
-			let file = path.join(dir, 'lib/file/gitignore');
-
-			if (fs.existsSync(file))
-			{
-				fs.copyFileSync(file, path.join(targetPath, '.gitignore'));
-
-				console.success(`create .gitignore`);
-			}
-		}
-		catch (e)
-		{
-
-		}
-	}
+	copyStaticFiles(defaultCopyStaticFiles, {
+		cwd: targetPath,
+	});
 
 	createDirByPackages(targetPath, packages);
 
@@ -297,7 +282,7 @@ export function getDefaultPackageJson(name?: string): {
 			"packages/*"
 		],
 		"scripts": {
-			"sort-package-json": "oao run-script \"sort-package-json2\"",
+			"sort-package-json": "npx \"sort-package-json\"",
 			"test": "echo \"Error: no test specified\" && exit 1"
 		},
 		"devDependencies": {

@@ -3,11 +3,12 @@
  * Created by user on 2018/5/13/013.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-const findYarnWorkspaceRoot = require("find-yarn-workspace-root");
+const findYarnWorkspaceRoot = require("find-yarn-workspace-root2");
 const path = require("path");
 const pkgDir = require("pkg-dir");
 const fs = require("fs");
 const debug_color2_1 = require("debug-color2");
+const index_1 = require("npm-init2/lib/index");
 exports.console = new debug_color2_1.Console2(null, {
     label: true,
     time: true,
@@ -153,18 +154,9 @@ function _createYarnWorkspaces(targetPath, options = {}) {
         fs.writeFileSync(path.join(targetPath, 'tsconfig.json'), JSON.stringify(getDefaultTsconfig(), null, 2));
         exports.console.success(`create tsconfig.json`);
     }
-    if (!fs.existsSync(path.join(targetPath, '.gitignore'))) {
-        try {
-            let dir = path.dirname(require.resolve('npm-init2'));
-            let file = path.join(dir, 'lib/file/gitignore');
-            if (fs.existsSync(file)) {
-                fs.copyFileSync(file, path.join(targetPath, '.gitignore'));
-                exports.console.success(`create .gitignore`);
-            }
-        }
-        catch (e) {
-        }
-    }
+    index_1.copyStaticFiles(index_1.defaultCopyStaticFiles, {
+        cwd: targetPath,
+    });
     createDirByPackages(targetPath, packages);
     return true;
 }
@@ -184,7 +176,7 @@ function getDefaultPackageJson(name) {
             "packages/*"
         ],
         "scripts": {
-            "sort-package-json": "oao run-script \"sort-package-json2\"",
+            "sort-package-json": "npx \"sort-package-json\"",
             "test": "echo \"Error: no test specified\" && exit 1"
         },
         "devDependencies": {
