@@ -176,11 +176,12 @@ function getDefaultPackageJson(name) {
             "packages/*"
         ],
         "scripts": {
+            "ncu": "npx npm-check-updates -u",
             "sort-package-json": "npx \"sort-package-json\"",
             "test": "echo \"Error: no test specified\" && exit 1"
         },
         "devDependencies": {
-            "@bluelovers/tsconfig": "^1.0.1"
+            "@bluelovers/tsconfig": "^1.0.3"
         },
         "resolutions": {}
     };

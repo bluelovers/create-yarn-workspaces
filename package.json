@@ -1,6 +1,6 @@
 {
   "name": "create-yarn-workspaces",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
   "keywords": [
     "cli",
@@ -25,6 +25,7 @@
   "main": "index.js",
   "bin": {
     "create-yarn-workspaces": "./bin/yarn-ws-init.js",
+    "ws-init": "./bin/yarn-ws-init.js",
     "yarn-ws-init": "./bin/yarn-ws-init.js"
   },
   "directories": {
