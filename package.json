@@ -1,6 +1,6 @@
 {
   "name": "create-yarn-workspaces",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
   "keywords": [
     "cli",
@@ -39,11 +39,11 @@
     "test": "node ./bin/yarn-ws-init --debug --ignoreExistsPackage --ignoreParentWorkspaces ./test/temp"
   },
   "dependencies": {
-    "debug-color2": "^1.0.7",
+    "debug-color2": "^1.1.5",
     "find-yarn-workspace-root2": "^1.2.2",
-    "npm-init2": "^1.0.24",
+    "npm-init2": "^1.0.29",
     "pkg-dir": "^4.1.0",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.4"
   },
   "devDependencies": {}
 }

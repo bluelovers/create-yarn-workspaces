@@ -3,29 +3,12 @@
 import createYarnWorkspaces, { console as debug } from '..';
 import * as yargs from 'yargs';
 import * as path from 'path';
+import setupWorkspacesInitToYargs from '../yargs-setting';
 
 const CWD = process.cwd();
 
-let cli = yargs
-	.default({
-		//input: process.cwd(),
-	})
-	.option('name', {
-		alias: ['n'],
-		requiresArg: true,
-		normalize: true,
-		type: 'string',
-	})
-	.option('ignoreExistsPackage', {
-		boolean: true,
-		alias: ['i'],
-	})
-	.option('ignoreParentWorkspaces', {
-		boolean: true,
-	})
-	.option('debug', {
-		boolean: true,
-	})
+let cli = setupWorkspacesInitToYargs(yargs)
+	// @ts-ignore
 	.command('$0', '', function (yargs)
 	{
 		let name = yargs.argv.name || yargs.argv._[0];

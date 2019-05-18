@@ -25,3 +25,6 @@ tests/*.d.ts
 tests/temp*
 /bin/*.d.ts
 /yarn-error.log
+/.browserslistrc
+/.eslintrc.json.tpl
+/.nvmrc
