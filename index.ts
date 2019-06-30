@@ -5,10 +5,10 @@
 import findYarnWorkspaceRoot = require('find-yarn-workspace-root2');
 import path = require('path');
 import pkgDir = require('pkg-dir');
-import fs = require('fs');
+import fs = require('fs-extra');
 
 import { Console2 } from 'debug-color2';
-import { copyStaticFiles, defaultCopyStaticFiles } from 'npm-init2/lib/index';
+import copyStaticFiles, { defaultCopyStaticFiles } from '@yarn-tool/static-file';
 
 export const console = new Console2(null, {
 	label: true,
@@ -243,7 +243,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 		console.success(`create tsconfig.json`);
 	}
 
-	copyStaticFiles(defaultCopyStaticFiles, {
+	copyStaticFiles({
 		cwd: targetPath,
 	});
 
@@ -282,12 +282,16 @@ export function getDefaultPackageJson(name?: string): {
 			"packages/*"
 		],
 		"scripts": {
+			"lerna:publish": "lerna publish",
 			"ncu": "npx npm-check-updates -u",
 			"sort-package-json": "npx \"sort-package-json\"",
 			"test": "echo \"Error: no test specified\" && exit 1"
 		},
 		"devDependencies": {
 			"@bluelovers/tsconfig": "^1.0.3"
+		},
+		"peerDependencies": {
+			"lerna": "^3.14.1"
 		},
 		"resolutions": {}
 	};

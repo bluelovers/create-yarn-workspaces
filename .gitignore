@@ -28,3 +28,4 @@ tests/temp*
 /.browserslistrc
 /.eslintrc.json.tpl
 /.nvmrc
+*.tsbuildinfo
