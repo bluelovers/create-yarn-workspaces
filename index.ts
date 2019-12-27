@@ -283,12 +283,14 @@ export function getDefaultPackageJson(name?: string): {
 		],
 		"scripts": {
 			"lerna:publish": "lerna publish",
-			"ncu": "npx npm-check-updates -u",
-			"sort-package-json": "npx \"sort-package-json\"",
+			"lerna:publish:yes": "lerna publish --yes --cd-version patch",
+			"ncu": "npx yarn-tool ncu -u",
+			"sort-package-json": "npx sort-package-json ./package.json",
 			"test": "echo \"Error: no test specified\" && exit 1"
 		},
 		"devDependencies": {
-			"@bluelovers/tsconfig": "^1.0.3"
+			"@types/node": "*",
+			"@bluelovers/tsconfig": "^1.0.13"
 		},
 		"peerDependencies": {
 			"lerna": "^3.14.1"

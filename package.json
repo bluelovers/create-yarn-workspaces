@@ -1,6 +1,6 @@
 {
   "name": "create-yarn-workspaces",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
   "keywords": [
     "cli",
@@ -34,7 +34,7 @@
   "scripts": {
     "coverage": "npx nyc npm run test",
     "lint": "npx eslint **/*.ts",
-    "ncu": "npx npm-check-updates -u",
+    "ncu": "npx yarn-tool ncu -u",
     "npm:publish": "npm publish",
     "prepublishOnly": "npm run ncu && npm run sort-package-json",
     "postpublish": "git commit -m \"publish new version\" .",
@@ -49,7 +49,7 @@
     "find-yarn-workspace-root2": "^1.2.6",
     "fs-extra": "^8.1.0",
     "pkg-dir": "^4.2.0",
-    "yargs": "^13.2.4"
+    "yargs": "^15.0.2"
   },
   "devDependencies": {}
 }
