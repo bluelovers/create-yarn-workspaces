@@ -297,10 +297,10 @@ export function getDefaultPackageJson(name?: string): {
 		},
 		"devDependencies": {
 			"@types/node": "*",
-			"@bluelovers/tsconfig": "^1.0.13"
+			"@bluelovers/tsconfig": "latest"
 		},
 		"peerDependencies": {
-			"lerna": "^3.14.1"
+			"lerna": "^3"
 		},
 		"resolutions": {}
 	};

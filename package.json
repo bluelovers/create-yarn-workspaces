@@ -1,6 +1,6 @@
 {
   "name": "create-yarn-workspaces",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
   "keywords": [
     "cli",
@@ -44,7 +44,7 @@
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
   "dependencies": {
-    "@yarn-tool/static-file": "^1.0.0",
+    "@yarn-tool/static-file": "^1.0.1",
     "debug-color2": "^1.1.6",
     "find-yarn-workspace-root2": "^1.2.7",
     "fs-extra": "^8.1.0",
