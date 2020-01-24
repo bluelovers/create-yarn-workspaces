@@ -261,7 +261,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 export function getDefaultTsconfig()
 {
 	return {
-		extends: "@bluelovers/tsconfig/sourcemap/mapfile.json"
+		extends: "@bluelovers/tsconfig/esm/esModuleInterop"
 	}
 }
 
@@ -288,11 +288,11 @@ export function getDefaultPackageJson(name?: string): {
 			"packages/*"
 		],
 		"scripts": {
-			"lerna:publish": "lerna publish",
-			"lerna:publish:yes": "lerna publish --yes --cd-version patch",
+			"lerna:publish": "npx lerna publish",
+			"lerna:publish:yes": "npx lerna publish --yes --cd-version patch",
 			"prepublish:lockfile": "npx sync-lockfile .",
 			"ncu": "npx yarn-tool ncu -u",
-			"sort-package-json": "npx sort-package-json ./package.json",
+			"sort-package-json": "npx yarn-tool sort",
 			"test": "echo \"Error: no test specified\" && exit 1"
 		},
 		"devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "create-yarn-workspaces",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "yarn create yarn-workspaces     npx create-yarn-workspaces",
   "keywords": [
     "cli",
@@ -37,15 +37,15 @@
     "ncu": "npx yarn-tool ncu -u",
     "npm:publish": "npm publish",
     "prepublishOnly": "npm run ncu && npm run sort-package-json",
-    "postpublish": "git commit -m \"publish new version\" .",
-    "sort-package-json": "npx sort-package-json ./package.json",
+    "postpublish": "git commit -m \"chore(release): publish\" .",
+    "sort-package-json": "npx yarn-tool sort",
     "test": "node ./bin/yarn-ws-init --debug --ignoreExistsPackage --ignoreParentWorkspaces ./test/temp",
     "tsc:default": "tsc -p tsconfig.json",
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
   "dependencies": {
-    "@yarn-tool/static-file": "^1.0.1",
-    "debug-color2": "^1.1.6",
+    "@yarn-tool/static-file": "^1.0.2",
+    "debug-color2": "^1.1.7",
     "find-yarn-workspace-root2": "^1.2.7",
     "fs-extra": "^8.1.0",
     "pkg-dir": "^4.2.0",
