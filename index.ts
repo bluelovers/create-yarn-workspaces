@@ -8,7 +8,7 @@ import pkgDir = require('pkg-dir');
 import fs = require('fs-extra');
 
 import { Console2 } from 'debug-color2';
-import copyStaticFiles, { defaultCopyStaticFiles } from '@yarn-tool/static-file';
+import copyStaticFiles, { defaultCopyStaticFiles, IStaticFilesMapArray } from '@yarn-tool/static-file';
 
 export const console = new Console2(null, {
 	label: true,
@@ -219,7 +219,7 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 
 		console.info(`update lerna.json`);
 	}
-	else if (!lerna)
+	else if (0 && !lerna)
 	{
 		let file = path.join(targetPath, 'lerna.json');
 
@@ -242,15 +242,24 @@ export function _createYarnWorkspaces(targetPath: string, options: IOptions = {}
 		console.success(`create lerna.json`);
 	}
 
+	/*
 	if (!fs.existsSync(path.join(targetPath, 'tsconfig.json')))
 	{
 		fs.writeFileSync(path.join(targetPath, 'tsconfig.json'), JSON.stringify(getDefaultTsconfig(), null, 2));
 
 		console.success(`create tsconfig.json`);
 	}
+	 */
+
+	let file_map: IStaticFilesMapArray<string> = [
+		['tsconfig.json', 'file/tsconfig.json.tpl'],
+		['lerna.json', 'file/lerna.json.tpl'],
+		...defaultCopyStaticFiles,
+	]
 
 	copyStaticFiles({
 		cwd: targetPath,
+		file_map,
 	});
 
 	createDirByPackages(targetPath, packages);
@@ -297,7 +306,7 @@ export function getDefaultPackageJson(name?: string): {
 		},
 		"devDependencies": {
 			"@types/node": "*",
-			"@bluelovers/tsconfig": "latest"
+			"@bluelovers/tsconfig": "*"
 		},
 		"peerDependencies": {
 			"lerna": "^3"

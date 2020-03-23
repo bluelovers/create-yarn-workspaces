@@ -3,7 +3,7 @@
  */
 import yargs = require('yargs');
 import { Argv } from 'yargs';
-export declare function setupWorkspacesInitToYargs<T extends any>(yargs: Argv<T>): yargs.Argv<yargs.Omit<yargs.Omit<T, never>, "name"> & {
+export declare function setupWorkspacesInitToYargs<T extends any>(yargs: Argv<T>): yargs.Argv<yargs.Omit<T, never> & {
     name: string;
 } & {
     ignoreExistsPackage: boolean;
